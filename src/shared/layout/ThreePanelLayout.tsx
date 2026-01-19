@@ -39,17 +39,20 @@ export function ThreePanelLayout({
         flexDirection: { xs: 'column', md: 'row' },
         gap: 2,
         height: '100%',
+        alignItems: 'stretch',
       }}
     >
       {/* Left Panel: Code */}
       <Box
         sx={{
           flex: { xs: '1 1 100%', md: '1 1 33.333%' },
-          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: 1,
           p: 2,
+          minHeight: 0,
         }}
       >
         {codePanel}
@@ -59,11 +62,13 @@ export function ThreePanelLayout({
       <Box
         sx={{
           flex: { xs: '1 1 100%', md: '1 1 33.333%' },
-          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: 1,
           p: 2,
+          minHeight: 0,
         }}
       >
         {outputPanel}
@@ -73,11 +78,13 @@ export function ThreePanelLayout({
       <Box
         sx={{
           flex: { xs: '1 1 100%', md: '1 1 33.333%' },
-          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: 1,
           p: 2,
+          minHeight: 0,
         }}
       >
         {statsPanel}

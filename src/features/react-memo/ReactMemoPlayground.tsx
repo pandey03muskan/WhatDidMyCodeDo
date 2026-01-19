@@ -24,13 +24,13 @@ import { CODE_EXAMPLES, MEMO_HIGHLIGHT } from './memo.constants';
 function ChildBase({ 
   childCount,
   isMemoized,
-  previousChildCount,
-  renderReason
+  // previousChildCount,
+  // renderReason
 }: { 
   childCount: number;
   isMemoized?: boolean;
-  previousChildCount?: number;
-  renderReason?: string;
+  // previousChildCount?: number;
+  // renderReason?: string;
 }) {
   // Initialize render count ref to 0
   // useRef persists across renders but doesn't trigger re-renders when mutated
@@ -41,8 +41,8 @@ function ChildBase({
   renderCountRef.current += 1;
 
   // Determine if props changed (for visual indicator)
-  const propsChanged = previousChildCount !== undefined && previousChildCount !== childCount;
-  const willRender = !isMemoized || propsChanged;
+  // const propsChanged = previousChildCount !== undefined && previousChildCount !== childCount;
+  // const willRender = !isMemoized || propsChanged;
 
   return (
     <Paper
@@ -73,7 +73,7 @@ function ChildBase({
             >
               Child Component
             </Typography>
-            {renderReason && (
+            {/* {renderReason && (
               <Chip
                 label={renderReason}
                 size="small"
@@ -84,7 +84,7 @@ function ChildBase({
                   height: 20,
                 }}
               />
-            )}
+            )} */}
           </Box>
           <Box
             sx={{
@@ -373,8 +373,8 @@ export function ReactMemoPlayground() {
           <Child 
             childCount={childCount}
             isMemoized={isMemoized}
-            previousChildCount={previousChildCountRef.current}
-            renderReason={renderReason}
+            // previousChildCount={previousChildCountRef.current}
+            // renderReason={renderReason}
           />
         {/* </Box> */}
       </Stack>
@@ -388,7 +388,7 @@ export function ReactMemoPlayground() {
   return (
     <ThreePanelLayout
       codePanel={
-        <Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
           <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
               Code
@@ -408,6 +408,10 @@ export function ReactMemoPlayground() {
               overflow: 'hidden',
               border: '1px solid',
               borderColor: 'divider',
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: 0,
             }}
           >
             <Box
@@ -421,7 +425,7 @@ export function ReactMemoPlayground() {
                 fontFamily: 'monospace',
                 lineHeight: 1.8,
                 m: 0,
-                maxHeight: '600px',
+                flex: 1,
               }}
             >
               {codeLines.map((line, index) => {
@@ -461,7 +465,7 @@ export function ReactMemoPlayground() {
         </Box>
       }
       outputPanel={
-        <Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
           <Typography 
             variant="h6" 
             gutterBottom
@@ -469,11 +473,13 @@ export function ReactMemoPlayground() {
           >
             UI Output
           </Typography>
-          <Parent />
+          <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+            <Parent />
+          </Box>
         </Box>
       }
       statsPanel={
-        <Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
           <Typography 
             variant="h6" 
             gutterBottom
@@ -481,142 +487,144 @@ export function ReactMemoPlayground() {
           >
             Render Stats
           </Typography>
-          <Paper
-            elevation={1}
-            sx={{
-              p: 2.5,
-              mb: 3,
-              border: '1px solid',
-              borderRadius: 2,
-              bgcolor: isMemoized ? 'success.50' : 'warning.50',
-              borderColor: isMemoized ? 'success.light' : 'warning.light',
-            }}
-          >
-            <Stack spacing={2}>
-              <Box>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={isMemoized}
-                      onChange={(e) => setIsMemoized(e.target.checked)}
-                      color={isMemoized ? 'success' : 'warning'}
-                      sx={{ 
-                        '& .MuiSwitch-switchBase.Mui-checked': {
-                          color: 'success.main',
-                        },
-                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                          backgroundColor: 'success.main',
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <Box>
-                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                        {isMemoized ? 'With React.memo' : 'Without React.memo'}
-                      </Typography>
-                      <Chip
-                        label={isMemoized ? 'Optimized' : 'Baseline'}
-                        color={isMemoized ? 'success' : 'warning'}
-                        size="small"
-                        sx={{ mt: 0.5, fontWeight: 600 }}
-                      />
-                    </Box>
-                  }
-                />
-              </Box>
-            </Stack>
-          </Paper>
-          <Stack spacing={2}>
+          <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
             <Paper
-              elevation={0}
+              elevation={1}
               sx={{
-                p: 2,
-                bgcolor: 'info.50',
+                p: 2.5,
+                mb: 3,
                 border: '1px solid',
-                borderColor: 'info.light',
                 borderRadius: 2,
-              }}
-            >
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  fontWeight: 500,
-                  color: 'info.dark',
-                  lineHeight: 1.7,
-                }}
-              >
-                💡 <strong>How to test:</strong>
-              </Typography>
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  fontWeight: 400,
-                  color: 'info.dark',
-                  lineHeight: 1.7,
-                  mt: 1,
-                  pl: 2,
-                }}
-              >
-                1. Click "Increment Parent Count" - see if child re-renders<br/>
-                2. Click "Increment Child Prop" - child always re-renders<br/>
-                3. Toggle memo to see the difference
-              </Typography>
-            </Paper>
-            
-            <Paper
-              elevation={0}
-              sx={{
-                p: 2,
                 bgcolor: isMemoized ? 'success.50' : 'warning.50',
-                border: '1px solid',
                 borderColor: isMemoized ? 'success.light' : 'warning.light',
-                borderRadius: 2,
               }}
             >
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  fontWeight: 600,
-                  color: isMemoized ? 'success.dark' : 'warning.dark',
-                  lineHeight: 1.7,
-                  mb: 1,
-                }}
-              >
-                {isMemoized ? '✅ With React.memo:' : '⚠️ Without React.memo:'}
-              </Typography>
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  fontWeight: 400,
-                  color: isMemoized ? 'success.dark' : 'warning.dark',
-                  lineHeight: 1.7,
-                }}
-              >
-                {isMemoized 
-                  ? 'Child only re-renders when props change. When you click "Increment Parent Count", the child render count stays the same because the childCount prop didn\'t change.'
-                  : 'Child re-renders on every parent render, even when props don\'t change. Notice how the child render count increases even when only parent state changes.'}
-              </Typography>
+              <Stack spacing={2}>
+                <Box>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isMemoized}
+                        onChange={(e) => setIsMemoized(e.target.checked)}
+                        color={isMemoized ? 'success' : 'warning'}
+                        sx={{ 
+                          '& .MuiSwitch-switchBase.Mui-checked': {
+                            color: 'success.main',
+                          },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                            backgroundColor: 'success.main',
+                          },
+                        }}
+                      />
+                    }
+                    label={
+                      <Box>
+                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                          {isMemoized ? 'With React.memo' : 'Without React.memo'}
+                        </Typography>
+                        <Chip
+                          label={isMemoized ? 'Optimized' : 'Baseline'}
+                          color={isMemoized ? 'success' : 'warning'}
+                          size="small"
+                          sx={{ mt: 0.5, fontWeight: 600 }}
+                        />
+                      </Box>
+                    }
+                  />
+                </Box>
+              </Stack>
             </Paper>
+            <Stack spacing={2}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 2,
+                  bgcolor: 'info.50',
+                  border: '1px solid',
+                  borderColor: 'info.light',
+                  borderRadius: 2,
+                }}
+              >
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    fontWeight: 500,
+                    color: 'info.dark',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  💡 <strong>How to test:</strong>
+                </Typography>
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    fontWeight: 400,
+                    color: 'info.dark',
+                    lineHeight: 1.7,
+                    mt: 1,
+                    pl: 2,
+                  }}
+                >
+                  1. Click "Increment Parent Count" - see if child re-renders<br/>
+                  2. Click "Increment Child Prop" - child always re-renders<br/>
+                  3. Toggle memo to see the difference
+                </Typography>
+              </Paper>
+              
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 2,
+                  bgcolor: isMemoized ? 'success.50' : 'warning.50',
+                  border: '1px solid',
+                  borderColor: isMemoized ? 'success.light' : 'warning.light',
+                  borderRadius: 2,
+                }}
+              >
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    fontWeight: 600,
+                    color: isMemoized ? 'success.dark' : 'warning.dark',
+                    lineHeight: 1.7,
+                    mb: 1,
+                  }}
+                >
+                  {isMemoized ? '✅ With React.memo:' : '⚠️ Without React.memo:'}
+                </Typography>
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    fontWeight: 400,
+                    color: isMemoized ? 'success.dark' : 'warning.dark',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {isMemoized 
+                    ? 'Child only re-renders when props change. When you click "Increment Parent Count", the child render count stays the same because the childCount prop didn\'t change.'
+                    : 'Child re-renders on every parent render, even when props don\'t change. Notice how the child render count increases even when only parent state changes.'}
+                </Typography>
+              </Paper>
 
-            <Alert 
-              severity="info" 
-              sx={{ 
-                '& .MuiAlert-message': {
-                  fontSize: '0.875rem',
-                }
-              }}
-            >
-              <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
-                Current Behavior:
-              </Typography>
-              <Typography variant="body2">
-                {isMemoized 
-                  ? '• Memo is active - comparing props before re-rendering\n• Child will skip render if props unchanged\n• Watch the "Render Reason" badge on child component'
-                  : '• No memo - child always re-renders with parent\n• Props comparison is skipped\n• Every parent render triggers child render'}
-              </Typography>
-            </Alert>
-          </Stack>
+              <Alert 
+                severity="info" 
+                sx={{ 
+                  '& .MuiAlert-message': {
+                    fontSize: '0.875rem',
+                  }
+                }}
+              >
+                <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                  Current Behavior:
+                </Typography>
+                <Typography variant="body2">
+                  {isMemoized 
+                    ? '• Memo is active - comparing props before re-rendering\n• Child will skip render if props unchanged\n• Watch the "Render Reason" badge on child component'
+                    : '• No memo - child always re-renders with parent\n• Props comparison is skipped\n• Every parent render triggers child render'}
+                </Typography>
+              </Alert>
+            </Stack>
+          </Box>
         </Box>
       }
     />
