@@ -38,7 +38,8 @@ export function ThreePanelLayout({
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
         gap: 2,
-        height: '100%',
+        height: { xs: 'auto', md: '100vh' },
+        minHeight: { xs: 'auto', md: '100vh' },
         alignItems: 'stretch',
       }}
     >
@@ -53,6 +54,8 @@ export function ThreePanelLayout({
           borderRadius: 1,
           p: 2,
           minHeight: 0,
+          height: { xs: 'auto', md: '100%' },
+          overflow: 'hidden',
         }}
       >
         {codePanel}
@@ -69,6 +72,8 @@ export function ThreePanelLayout({
           borderRadius: 1,
           p: 2,
           minHeight: 0,
+          height: { xs: 'auto', md: '100%' },
+          overflow: 'hidden',
         }}
       >
         {outputPanel}
@@ -85,6 +90,8 @@ export function ThreePanelLayout({
           borderRadius: 1,
           p: 2,
           minHeight: 0,
+          height: { xs: 'auto', md: '100%' },
+          overflow: 'hidden',
         }}
       >
         {statsPanel}

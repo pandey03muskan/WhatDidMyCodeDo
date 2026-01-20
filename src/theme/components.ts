@@ -1,16 +1,47 @@
-import { Components } from '@mui/material/styles';
+import { Components, Theme } from '@mui/material/styles';
 
 /**
  * Component-level theme overrides
  */
 export const components: Components = {
   MuiCssBaseline: {
-    styleOverrides: {
-      body: {
-        fontFamily: 'var(--font-poppins), var(--font-inter), sans-serif',
-        WebkitFontSmoothing: 'antialiased',
-        MozOsxFontSmoothing: 'grayscale',
-      },
+    styleOverrides: (theme) => {
+      const muiTheme = theme as Theme;
+      const isDark = muiTheme.palette.mode === 'dark';
+      const track = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+      const thumb = isDark ? 'rgba(255,255,255,0.28)' : 'rgba(0,0,0,0.28)';
+      const thumbHover = isDark ? 'rgba(255,255,255,0.38)' : 'rgba(0,0,0,0.38)';
+
+      return {
+        body: {
+          fontFamily: 'var(--font-poppins), var(--font-inter), sans-serif',
+          WebkitFontSmoothing: 'antialiased',
+          MozOsxFontSmoothing: 'grayscale',
+        },
+
+        // Firefox
+        '*': {
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${thumb} ${track}`,
+        },
+
+        // Chromium / Safari
+        '*::-webkit-scrollbar': {
+          width: 8,
+          height: 8,
+        },
+        '*::-webkit-scrollbar-track': {
+          backgroundColor: track,
+          borderRadius: 999,
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: thumb,
+          borderRadius: 999,
+        },
+        '*::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: thumbHover,
+        },
+      };
     },
   },
   MuiButton: {

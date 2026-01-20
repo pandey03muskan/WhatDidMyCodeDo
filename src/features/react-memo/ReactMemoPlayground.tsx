@@ -12,7 +12,8 @@ import {
   Divider,
   Stack,
   Tooltip,
-  Alert
+  Alert,
+  Link,
 } from '@mui/material';
 import { ThreePanelLayout } from '@/shared/layout/ThreePanelLayout';
 import { CODE_EXAMPLES, MEMO_HIGHLIGHT } from './memo.constants';
@@ -362,9 +363,14 @@ export function ReactMemoPlayground() {
             >
               ↓
             </Box>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-              {isMemoized ? 'Memo checks props' : 'Always re-renders'}
-            </Typography>
+            <Tooltip 
+               title={isMemoized ? "Uses shallow comparison (===) on props" : "Always re-renders"}>
+              <Typography 
+              variant="caption" 
+              sx={{ color: 'text.secondary', fontWeight: 600, cursor: 'pointer' }}>
+                {isMemoized ? 'Memo checks props (Re-render only if props changed)' : 'Always re-renders'}
+              </Typography>
+            </Tooltip>
           </Box>
         </Box>
 
@@ -601,7 +607,7 @@ export function ReactMemoPlayground() {
                   }}
                 >
                   {isMemoized 
-                    ? 'Child only re-renders when props change. When you click "Increment Parent Count", the child render count stays the same because the childCount prop didn\'t change.'
+                    ? 'Child only re-renders when props change.Memo does a shallow comparison.When you click "Increment Parent Count", the child render count stays the same because the childCount prop didn\'t change.'
                     : 'Child re-renders on every parent render, even when props don\'t change. Notice how the child render count increases even when only parent state changes.'}
                 </Typography>
               </Paper>
@@ -617,12 +623,41 @@ export function ReactMemoPlayground() {
                 <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
                   Current Behavior:
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
                   {isMemoized 
-                    ? '• Memo is active - comparing props before re-rendering\n• Child will skip render if props unchanged\n• Watch the "Render Reason" badge on child component'
-                    : '• No memo - child always re-renders with parent\n• Props comparison is skipped\n• Every parent render triggers child render'}
+                    ? `• Memo is active - comparing props before re-rendering\n• Child will skip render if props unchanged`
+                    : `• No memo - child always re-renders with parent\n• Props comparison is skipped\n• Every parent render triggers child render`}
                 </Typography>
               </Alert>
+
+              {isMemoized && (
+                <Alert 
+                  severity="warning"
+                  sx={{ 
+                    '& .MuiAlert-message': {
+                      fontSize: '0.875rem',
+                    }
+                  }}
+                >
+                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                    Performance note:
+                  </Typography>
+                  <Typography variant="body2" sx={{ mb: 0.5 }}>
+                    Shallow comparisons aren&apos;t free – they are approximately O(prop count), and you only gain when React can bail out of a render.
+                  </Typography>
+                  <Typography variant="body2">
+                    For more details, see{' '}
+                    <Link 
+                      href="https://dev.to/kells/react-memo-vs-usememo-3j52" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      underline="hover"
+                    >
+                      React Memo
+                    </Link>.
+                  </Typography>
+                </Alert>
+              )}
             </Stack>
           </Box>
         </Box>
