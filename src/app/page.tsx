@@ -87,7 +87,7 @@ export default function Home() {
     },
     {
       title: 'useCallback',
-      description: 'Explore how useCallback memoizes functions to prevent unnecessary re-renders in child components. Master function memoization patterns.',
+      description: 'Explore how useCallback memoizes functions to prevent unnecessary re-renders in child components.',
       href: "/useCallback",
       comingSoon: false,
     },

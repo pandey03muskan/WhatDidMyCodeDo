@@ -37,7 +37,7 @@ const Child = memo(function Child({ childCount, IncrementChildCount }) {
   const [count, setCount] = useState(0);
   const [childCount, setChildCount] = useState(0);
   
-  // ✅ Function reference stays the same across renders
+  // Function reference stays the same across renders
   const IncrementChildCount = useCallback(() => {
     setChildCount(c => c + 1);
   }, []); // Empty deps = function never changes

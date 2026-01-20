@@ -267,8 +267,8 @@ export function UseCallbackPlayground() {
                 sx={{ color: 'text.secondary', fontWeight: 600, cursor: 'pointer' }}
               >
                 {useCallbackEnabled 
-                  ? '✅ Function reference stable (useCallback)' 
-                  : '❌ New function reference each render'}
+                  ? 'Function reference stable (useCallback)' 
+                  : 'New function reference each render'}
               </Typography>
             </Tooltip>
           </Box>
