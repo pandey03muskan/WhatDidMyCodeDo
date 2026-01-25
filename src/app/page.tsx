@@ -94,8 +94,8 @@ export default function Home() {
     {
       title: 'useMemo',
       description: 'Discover how useMemo optimizes expensive computations by memoizing values. Learn when to use it for performance optimization.',
-      href: undefined,
-      comingSoon: true,
+      href: "/useMemo",
+      comingSoon: false,
     },
   ];
 

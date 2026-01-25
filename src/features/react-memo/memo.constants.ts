@@ -8,13 +8,16 @@ export const CODE_EXAMPLES = {
   withoutMemo: `function Parent() {
   const [count, setCount] = useState(0);
   const [childCount, setChildCount] = useState(0);
+  const IncrementChildCount = () => {
+    setChildCount(c => c + 1);
+  };
   return (
     <div>
       <div>parent Count: {count}</div>;
       <button onClick={() => setCount(c => c + 1)}>
         Increment Parent Count
       </button>
-      <button onClick={() => setChildCount(c => c + 1)}>
+      <button onClick={IncrementChildCount}>
         Increment Child Count
       </button>
       <Child childCount={childCount} />
@@ -29,13 +32,16 @@ function Child({ childCount }) {
   withMemo: `function Parent() {
   const [count, setCount] = useState(0);
   const [childCount, setChildCount] = useState(0);
+  const IncrementChildCount = () => {
+    setChildCount(c => c + 1);
+  };
   return (
     <div>
       <div>parent Count: {count}</div>;
       <button onClick={() => setCount(c => c + 1)}>
         Increment Parent Count
       </button>
-      <button onClick={() => setChildCount(c => c + 1)}>
+      <button onClick={IncrementChildCount}>
         Increment Child Count
       </button>
       <Child childCount={childCount} />
@@ -54,6 +60,6 @@ const Child = memo(function Child({ childCount }) {
  * Line numbers are 1-indexed based on the withMemo code example.
  */
 export const MEMO_HIGHLIGHT = {
-  startLine: 18, // Line where "const Child = memo" starts
-  endLine: 22,   // Line where the memoized component ends
+  startLine: 20, // Line where "const Child = memo" starts
+  endLine: 24,   // Line where the memoized component ends
 };

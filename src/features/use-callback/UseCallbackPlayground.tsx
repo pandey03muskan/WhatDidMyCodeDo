@@ -75,7 +75,7 @@ const Child = memo(function Child({
                 fontWeight: 700,
                 fontSize: '0.875rem',
                 minWidth: 40,
-                bgcolor: 'success.main',
+                bgcolor: 'primary.main',
                 color: 'white',
               }}
               suppressHydrationWarning
@@ -288,7 +288,19 @@ export function UseCallbackPlayground() {
   const codeLines = codeExample.split('\n');
 
   return (
-    <ThreePanelLayout
+    <Box>
+      <Typography 
+        variant="h4" 
+        sx={{ 
+          fontWeight: 700, 
+          mb: 3,
+          color: 'text.primary',
+          fontFamily: 'var(--font-poppins), sans-serif',
+        }}
+      >
+        useCallback Playground
+      </Typography>
+      <ThreePanelLayout
       codePanel={
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
           <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -552,6 +564,7 @@ export function UseCallbackPlayground() {
         </Box>
       }
     />
+    </Box>
   );
 }
 

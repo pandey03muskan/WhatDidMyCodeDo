@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, memo, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   Box, 
   Button, 
@@ -25,13 +26,9 @@ import { CODE_EXAMPLES, MEMO_HIGHLIGHT } from './memo.constants';
 function ChildBase({ 
   childCount,
   isMemoized,
-  // previousChildCount,
-  // renderReason
 }: { 
   childCount: number;
   isMemoized?: boolean;
-  // previousChildCount?: number;
-  // renderReason?: string;
 }) {
   // Initialize render count ref to 0
   // useRef persists across renders but doesn't trigger re-renders when mutated
@@ -151,6 +148,7 @@ function ChildBase({
  * - With memo, child only re-renders when props actually change
  */
 export function ReactMemoPlayground() {
+  const router = useRouter();
   // Toggle state: false = without memo (default), true = with memo
   const [isMemoized, setIsMemoized] = useState(false);
 
@@ -177,6 +175,9 @@ export function ReactMemoPlayground() {
     const [count, setCount] = useState(0);
     const [childCount, setChildCount] = useState(0);
     
+    const IncrementChildCount = () => {
+      setChildCount(c => c + 1);
+    };
     // Initialize render count ref to 0
     // useRef persists across renders but doesn't trigger re-renders when mutated
     const renderCountRef = useRef(0);
@@ -316,7 +317,7 @@ export function ReactMemoPlayground() {
               >
                 <Button
                   variant="contained"
-                  onClick={() => setChildCount((prev) => prev + 1)}
+                  onClick={IncrementChildCount}
                   size="large"
                   color="primary"
                   sx={{
@@ -368,7 +369,7 @@ export function ReactMemoPlayground() {
               <Typography 
               variant="caption" 
               sx={{ color: 'text.secondary', fontWeight: 600, cursor: 'pointer' }}>
-                {isMemoized ? 'Memo checks props (Re-render only if props changed)' : 'Always re-renders'}
+                {isMemoized ? 'Props are compared by reference (Re-render only if props changed)' : 'Always re-renders'}
               </Typography>
             </Tooltip>
           </Box>
@@ -392,7 +393,19 @@ export function ReactMemoPlayground() {
   const codeLines = codeExample.split('\n');
 
   return (
-    <ThreePanelLayout
+    <Box>
+      <Typography 
+        variant="h4" 
+        sx={{ 
+          fontWeight: 700, 
+          mb: 3,
+          color: 'text.primary',
+          fontFamily: 'var(--font-poppins), sans-serif',
+        }}
+      >
+        React.memo Playground
+      </Typography>
+      <ThreePanelLayout
       codePanel={
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
           <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -607,14 +620,17 @@ export function ReactMemoPlayground() {
                   }}
                 >
                   {isMemoized 
-                    ? 'Child only re-renders when props change.Memo does a shallow comparison.When you click "Increment Parent Count", the child render count stays the same because the childCount prop didn\'t change.'
+                    ? 'Child only re-renders when props change. Memo does a shallow comparison. When you click "Increment Parent Count", the child render count stays the same because the childCount prop (primitive value) didn\'t change. However, this only works with primitive values - see the warning below about function props.'
                     : 'Child re-renders on every parent render, even when props don\'t change. Notice how the child render count increases even when only parent state changes.'}
                 </Typography>
               </Paper>
 
+
               <Alert 
                 severity="info" 
                 sx={{ 
+                  border: '1px solid',
+                  borderColor: 'info.light',
                   '& .MuiAlert-message': {
                     fontSize: '0.875rem',
                   }
@@ -631,37 +647,85 @@ export function ReactMemoPlayground() {
               </Alert>
 
               {isMemoized && (
-                <Alert 
-                  severity="warning"
-                  sx={{ 
-                    '& .MuiAlert-message': {
-                      fontSize: '0.875rem',
-                    }
-                  }}
-                >
-                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
-                    Performance note:
-                  </Typography>
-                  <Typography variant="body2" sx={{ mb: 0.5 }}>
-                    Shallow comparisons aren&apos;t free – they are approximately O(prop count), and you only gain when React can bail out of a render.
-                  </Typography>
-                  <Typography variant="body2">
-                    For more details, see{' '}
-                    <Link 
-                      href="https://dev.to/kells/react-memo-vs-usememo-3j52" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      underline="hover"
+                <>
+                  <Alert 
+                    severity="warning"
+                    sx={{ 
+                      border: '1px solid',
+                      borderColor: 'warning.light',
+                      '& .MuiAlert-message': {
+                        fontSize: '0.875rem',
+                      }
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                      Performance note:
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 0.5 }}>
+                      Shallow comparisons aren&apos;t free – they are approximately O(prop count), and you only gain when React can bail out of a render.
+                    </Typography>
+                    <Typography variant="body2">
+                      For more details, see{' '}
+                      <Link 
+                        href="https://dev.to/kells/react-memo-vs-usememo-3j52" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        underline="hover"
+                      >
+                        React Memo
+                      </Link>.
+                    </Typography>
+                  </Alert>
+
+                  <Alert 
+                    severity="error"
+                    sx={{ 
+                      border: '1px solid',
+                      borderColor: 'error.light',
+                      '& .MuiAlert-message': {
+                        fontSize: '0.875rem',
+                      }
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+                      Where React.memo Fails:
+                    </Typography>
+                    <Typography variant="body2" sx={{ whiteSpace: 'pre-line', mb: 1.5 }}>
+                      {`React.memo works perfectly when passing primitive values (numbers, strings) as props. However, it fails when you pass functions as props.
+
+    Why it fails:
+    • When parent re-renders, a new function reference is created
+    • React.memo uses shallow comparison (===) to compare props
+    • New function reference !== previous function reference
+    • Child component re-renders even though the function logic is the same`}
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+                      Solution:
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 1.5 }}>
+                      Use <strong>useCallback</strong> to memoize the function and keep the reference stable across renders.
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={() => router.push('/useCallback')}
+                      sx={{
+                        fontWeight: 600,
+                        textTransform: 'none',
+                        mt: 0.5,
+                      }}
                     >
-                      React Memo
-                    </Link>.
-                  </Typography>
-                </Alert>
+                      Learn useCallback →
+                    </Button>
+                  </Alert>
+              </>
               )}
             </Stack>
           </Box>
         </Box>
       }
     />
+    </Box>
   );
 }
