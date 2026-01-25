@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, Typography, Paper, Stack, Chip } from '@mui/material';
+import { Box, Container, Typography, Paper, Stack, Chip, Button } from '@mui/material';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 
@@ -103,7 +103,8 @@ export default function Home() {
       <Header />
       
       <Container maxWidth="lg" sx={{ flex: 1, py: 6 }}>
-        <Box sx={{ mb: 6, textAlign: 'center' }}>
+        {/* Main Heading */}
+        <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography
             variant="h2"
             sx={{
@@ -113,7 +114,7 @@ export default function Home() {
               fontFamily: 'var(--font-poppins), sans-serif',
             }}
           >
-            React Performance Optimization
+            Exploring React
           </Typography>
           <Typography
             variant="h6"
@@ -128,26 +129,84 @@ export default function Home() {
           </Typography>
         </Box>
 
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: '1fr',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)',
-            },
-            gap: 3,
-          }}
-        >
-          {categories.map((category) => (
-            <CategoryCard
-              key={category.title}
-              title={category.title}
-              description={category.description}
-              href={category.href}
-              comingSoon={category.comingSoon}
-            />
-          ))}
+        {/* React Optimization Techniques Section */}
+        <Box sx={{ mb: 8 }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 600,
+              mb: 4,
+              color: 'text.primary',
+              fontFamily: 'var(--font-poppins), sans-serif',
+            }}
+          >
+            React Optimization Techniques
+          </Typography>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+              },
+              gap: 3,
+            }}
+          >
+            {categories.map((category) => (
+              <CategoryCard
+                key={category.title}
+                title={category.title}
+                description={category.description}
+                href={category.href}
+                comingSoon={category.comingSoon}
+              />
+            ))}
+          </Box>
+        </Box>
+
+        {/* What's Next Section */}
+        <Box>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 600,
+              mb: 2,
+              color: 'text.primary',
+              fontFamily: 'var(--font-poppins), sans-serif',
+            }}
+          >
+            What's Next
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'text.secondary',
+              mb: 4,
+              fontStyle: 'italic',
+            }}
+          >
+            This journey isn't finished. More experiments and learnings will be added over time.
+          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              disabled
+              variant="outlined"
+              size="large"
+              sx={{
+                px: 4,
+                py: 1.5,
+                fontWeight: 600,
+                textTransform: 'none',
+                fontSize: '1rem',
+                borderColor: 'divider',
+                color: 'text.secondary',
+                cursor: 'not-allowed',
+              }}
+            >
+              Coming Soon
+            </Button>
+          </Box>
         </Box>
       </Container>
     </Box>
