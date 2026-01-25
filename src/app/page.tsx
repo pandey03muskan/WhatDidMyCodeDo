@@ -79,26 +79,25 @@ function CategoryCard({ title, description, href, comingSoon }: CategoryCardProp
 
 export default function Home() {
   const categories = [
-    {
-      title: 'React.memo',
-      description: 'Learn how React.memo prevents unnecessary re-renders by memoizing component results. Understand when and how to use it effectively.',
-      href: '/react-memo',
-      comingSoon: false,
-    },
-    {
-      title: 'useCallback',
-      description: 'Explore how useCallback memoizes functions to prevent unnecessary re-renders in child components.',
-      href: "/useCallback",
-      comingSoon: false,
-    },
-    {
-      title: 'useMemo',
-      description: 'Discover how useMemo optimizes expensive computations by memoizing values. Learn when to use it for performance optimization.',
-      href: "/useMemo",
-      comingSoon: false,
-    },
-  ];
-
+  {
+    title: 'React.memo',
+    description: 'Skips re-rendering when props stay the same. Works great with values, breaks with fresh function references — unless you know what you’re doing.',
+    href: '/react-memo',
+    comingSoon: false,
+  },
+  {
+    title: 'useCallback',
+    description: 'Prevents new function references on every render. Makes React.memo actually useful when passing functions as props.',
+    href: '/useCallback',
+    comingSoon: false,
+  },
+  {
+    title: 'useMemo',
+    description: 'Doesn’t stop re-renders — stops expensive calculations from running again. React still renders, but the work gets reused.',
+    href: '/useMemo',
+    comingSoon: false,
+  }]
+  
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -125,7 +124,7 @@ export default function Home() {
               mx: 'auto',
             }}
           >
-            Interactive playgrounds to understand React optimization techniques
+            Small experiments to answer one question: what did my code actually do?
           </Typography>
         </Box>
 
