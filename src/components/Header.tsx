@@ -10,13 +10,17 @@ export function Header() {
 
   return (
     <AppBar 
-      position="static" 
+      position="sticky" 
       elevation={0}
       sx={{
         borderBottom: '1px solid',
         borderColor: 'divider',
         bgcolor: 'background.paper',
         color: 'text.primary',
+        top: 0,
+        zIndex: (theme) => theme.zIndex.appBar,
+        height: '10vh',
+        minHeight: '64px',
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 4 } }}>

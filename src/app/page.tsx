@@ -99,10 +99,11 @@ export default function Home() {
   }]
   
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <Header />
       
-      <Container maxWidth="lg" sx={{ flex: 1, py: 6 }}>
+      <Box sx={{ height: '90vh', overflowY: 'auto', overflowX: 'hidden' }}>
+        <Container maxWidth="lg" sx={{ py: 6 }}>
         {/* Main Heading */}
         <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography
@@ -208,7 +209,8 @@ export default function Home() {
             </Button>
           </Box>
         </Box>
-      </Container>
+        </Container>
+      </Box>
     </Box>
   );
 }

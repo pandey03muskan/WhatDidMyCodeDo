@@ -4,9 +4,9 @@ import { Box } from "@mui/material";
 
 const ReactMemo = () => {
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <Header />
-      <Box sx={{ flex: 1, p: 2 }}>
+      <Box sx={{ height: '90vh', overflowY: 'auto', overflowX: 'hidden', p: 2 }}>
         <ReactMemoPlayground />
       </Box>
     </Box>

@@ -16,7 +16,12 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  height: 100%;
+}
+
 body {
+  min-height: 100%;
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-poppins), var(--font-inter), sans-serif;
