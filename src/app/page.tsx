@@ -96,7 +96,14 @@ export default function Home() {
     description: 'Doesn’t stop re-renders — stops expensive calculations from running again. React still renders, but the work gets reused.',
     href: '/useMemo',
     comingSoon: false,
-  }]
+  },
+  // {
+  //   title: 'Lazy Loading',
+  //   description: 'Doesn’t stop re-renders — stops expensive calculations from running again. React still renders, but the work gets reused.',
+  //   href: '/lazy-loading',
+  //   comingSoon: false,
+  // }
+]
   
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -177,7 +184,7 @@ export default function Home() {
               fontFamily: 'var(--font-poppins), sans-serif',
             }}
           >
-            What's Next
+            What&apos;s Next
           </Typography>
           <Typography
             variant="body1"
@@ -187,7 +194,7 @@ export default function Home() {
               fontStyle: 'italic',
             }}
           >
-            This journey isn't finished. More experiments and learnings will be added over time.
+            This journey isn&apos;t finished. More experiments and learnings will be added over time.
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button

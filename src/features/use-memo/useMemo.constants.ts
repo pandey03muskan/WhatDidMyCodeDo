@@ -3,7 +3,7 @@ export const CODE_EXAMPLES_USE_MEMO = {
   const [count, setCount] = useState(0);
   const [filter, setFilter] = useState('');
   
-  // ❌ Expensive calculation runs on EVERY render
+  // Expensive calculation runs on EVERY render
   // Even if filter didn't change, this recalculates
   const expensiveResult = expensiveCalculation(filter);
   
@@ -36,7 +36,7 @@ function expensiveCalculation(filter) {
   const [count, setCount] = useState(0);
   const [filter, setFilter] = useState('');
   
-  // ✅ Calculation only runs when filter changes
+  // Calculation only runs when filter changes
   // When count changes, component re-renders but calculation is skipped
   const expensiveResult = useMemo(() => {
     return expensiveCalculation(filter);

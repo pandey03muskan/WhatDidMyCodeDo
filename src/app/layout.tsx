@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -27,6 +28,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <!-- Google tag (gtag.js) - runs on client only via next/script --> */}
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-QG4ZRS7JNR"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-QG4ZRS7JNR');
+          `}
+        </Script>
+      </head>
       <body className={`${poppins.variable} ${inter.variable}`}>
         <ThemeProvider>
           {children}
